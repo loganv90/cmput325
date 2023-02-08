@@ -1,0 +1,26 @@
+
+(fl-interp '(f (g 2) (g 1)) '( (f (X Y) = (+ X Y)) (g (X) = (+ 1 X)) ))
+(fl-interp '(f 0 (g 1)) '( (f (X Y) = (if (eq X 0) 0 Y)) (g (X) = (+ X (g (+ X 1)))) ))
+(fl-interp '(count (1 2 3)) '( (count (L) = (if (null L) 0 (+ 1 (count (rest L))))) ))
+(fl-interp '(xmap plus1 (1 2 3)) '( (plus1 (x) = (+ 1 x)) (xmap (f L) = (if (null L) nil (cons (f (car L)) (xmap f (cdr L))))) ))
+
+(fl-interp '(+ 1 2) nil)
+(fl-interp '(f (f 2)) '( (f (X) = (* X X)) ))
+(fl-interp '(a (+ 1 2)) '( (a (X) = (+ X 1)) ))
+(fl-interp '(b (+ 1 2)) '( (b (X) = (+ X 1)) ))
+(fl-interp '(h (g 5)) '( (g (X) = (g (g X))) (h (X) = 1 ) ))
+(set 'E '(reverse (1 2 3)))
+(set 'P '((reverse (X) = (if (null X) nil (append (reverse (rest X)) (cons (first X) nil)))) (append (X Y) = (if (null X) Y (cons (first X) (append (rest X) Y))))))
+(fl-interp E P)
+
+(fl-interp '(rest (1 2 (3))) nil)
+(fl-interp '(rest (p 1 2 (3))) nil)
+(fl-interp '(first (rest (1 (2 3)))) nil)
+(fl-interp '(eq (< 3 4) (eq (+ 3 4) (- 2 3))) nil)
+(fl-interp '(if (> 1 0) (+ 1 2) (+ 2 3)) nil)
+(fl-interp '(if (> 1 0) (if (eq 1 2) 3 4) 5)  nil) 
+(fl-interp '(cons (first (1 2 3))  (cons a nil)) nil)
+(fl-interp '(and (or T  nil) (> 3 4)) nil)
+(fl-interp '(eq (1 2 3) (1 2 3)) nil)
+(fl-interp '(equal (1 2 3) (1 2 3)) nil)
+
