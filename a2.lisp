@@ -4,7 +4,10 @@
 ; LEC B1
 ; Assignment 2
 
-
+; fl-interp: Takes a program P and an expression E. Returns the result of evaluating E with respect to P.
+; test case: (fl-interp '(+ 1 2) nil) => 3
+; test case: (fl-interp '(f (f 2)) '( (f (X) = (* X X)) )) => 16
+; test case: (fl-interp '(f (g 2) (g 1)) '( (f (X Y) = (+ X Y)) (g (X) = (+ 1 X)) )) => 5
 (defun fl-interp (E P)
     (cond
         ((null E) nil)
@@ -42,14 +45,12 @@
             P
         )) ;applicative order reduction
         
-        (T (mapcar (lambda (X) (funcall (lambda (Y) (fl-interp X Y)) P)) E)) ;when no program for (car E) in P, apply fl-interp to elements of E
+        (T (mapcar (lambda (X) (funcall (lambda (Y) (fl-interp X Y)) P)) E)) ;when no function definition for (car E) in P, apply fl-interp to elements of E
     )
 )
 
-
-; E -> (a 1 2)
-; P -> ( (a (X) = (+ X X)) (a (X Y) = (* X Y)) (a (X Y Z) = (* X (+ Y Z)) )
-;   -> (a (X Y) = (* X Y))
+; fl-find: Takes a program P and an expression E. Returns the function definition in P that corresponds to the function being called in E.
+; test case: (fl-find '(a 1 2) '( (a (X) = (+ X X)) (a (X Y) = (* X Y)) (a (X Y Z) = (* X (+ Y Z)) ) )) => (a (X Y) = (* X Y))
 (defun fl-find (E P)
     (cond
         ((null P) nil)
@@ -58,9 +59,8 @@
     )
 )
 
-
-; E -> (1 2 3)
-;   -> 3
+; fl-find: Takes an expression E. Returns the number of items in E. Doesn't include nested items.
+; test case: (fl-size '(1 (2 3) 4)) => 3
 (defun fl-size (E)
     (cond
         ((null E) 0)
@@ -68,12 +68,8 @@
     )
 )
 
-
-; A -> (X Y Z)
-; E -> (1 2 3)
-; P -> (+ X Y)
-;   -> (+ 1 2)
-; fl-replace: returns the program P with occurances of the items in the list A replaced with the items in the list E
+; fl-replace: Returns the expression P with the occurances of the items in list A replaced with the respective items of list E.
+; test case: (fl-replace '(X Y Z) '(1 2 3) '(+ X Y)) => (+ 1 2)
 (defun fl-replace (A E P)
     (cond
         ((null A) P)
@@ -82,12 +78,8 @@
     )
 )
 
-
-; A -> X
-; E -> 1
-; P -> (+ X Y)
-;   -> (+ 1 Y)
-; fl-substitute: returns the program P with occurances of A replaced with E
+; fl-substitute: Returns the expression P with occurances of the item A replaced with the item E.
+; test case: (fl-substitute 'X '1 '(+ X Y)) => (+ 1 Y)
 (defun fl-substitute (A E P)
     (cond
         ((null P) nil)
