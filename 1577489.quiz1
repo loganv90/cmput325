@@ -1,0 +1,58 @@
+1.
+normal order reduction:
+(Lxyz | xz(yyz)) (Lx | x) (Lx | xy) a
+(Lx | x) a ((Lx | xy) (Lx | xy) a)
+a ((Lx | xy) (Lx | xy) a)
+a ((Lx | xy) y a)
+a(yya)
+
+applicative order reduction:
+(Lxyz | xz(yyz)) (Lx | x) (Lx | xy) a
+(Lx | x) a ((Lx | xy) (Lx | xy) a)
+(Lx | x) a ((Lx | xy) y a)
+(Lx | x) a (yya)
+a(yya)
+
+
+2. a)
+(Lxy | x(yFT)y)
+
+
+2. b)
+XOR T F = (Lxy | x(yFT)y) T F
+T(FFT)T
+(Lxy | x) (FFT) F
+FFT
+(Lxy | y) F T
+T
+
+XOR T T = (Lxy | x(yFT)y) T T
+T(TFT)T
+(Lxy | x) (TFT) T
+TFT
+(Lxy | x) F T
+F
+
+
+3. a)
+[(((lambda (x) (lambda (y) (+ (* 2 x) y))) 5) 3) , CT0 = {}]
+[((lambda (y) (+ (* 2 x) y)) 3) , CT1 = {x->5}]
+[(+ (* 2 x) y) , CT2 = {y->3, x->5}]
+(+ 10 3)
+13
+
+result: 13
+last context: {y->3, x->5}
+
+
+3. b)
+[((lambda (x y) (x y)) (lambda (x) (+ 1 x)) 8) , CT0 = {}]
+[(x y) , CT1 = {x->(lambda (x) (+ 1 x)), y->8}]
+[((lambda (x) (+ 1 x)) y) , CT2 = {y->8}]
+[(+ 1 y) , CT2 = {y->8}]
+(+ 1 8)
+9
+
+result: 9
+last context: {y->8}
+
