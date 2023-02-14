@@ -36,8 +36,8 @@ F
 
 3. a)
 [(((lambda (x) (lambda (y) (+ (* 2 x) y))) 5) 3) , CT0 = {}]
-[((lambda (y) (+ (* 2 x) y)) 3) , CT1 = {x->5}]
-[(+ (* 2 x) y) , CT2 = {y->3, x->5}]
+[((lambda (y) (+ (* 2 x) y)) 3) , CT1 = {x->5} U CT0]
+[(+ (* 2 x) y) , CT2 = {y->3} U CT1]
 (+ 10 3)
 13
 
@@ -47,12 +47,13 @@ last context: {y->3, x->5}
 
 3. b)
 [((lambda (x y) (x y)) (lambda (x) (+ 1 x)) 8) , CT0 = {}]
-[(x y) , CT1 = {x->(lambda (x) (+ 1 x)), y->8}]
-[((lambda (x) (+ 1 x)) y) , CT2 = {y->8}]
-[(+ 1 y) , CT2 = {y->8}]
+[(x y) , CT1 = {x->[(lambda (x) (+ 1 x)) , CT0 = {}] , y->8} U CT0]
+[(x y) , CT1 = {x->(lambda (x) (+ 1 x)) , y->8}]
+[((lambda (x) (+ 1 x)) 8) , CT1]
+[(+ 1 x) , CT2 = {x->8} U CT1]
 (+ 1 8)
 9
 
 result: 9
-last context: {y->8}
+last context: {x->8, x->(lambda (x) (+ 1 x)) , y->8}
 
