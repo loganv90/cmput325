@@ -214,7 +214,7 @@ countAll_sort(List, Sorted) :- predsort(countAll_compare, List, Sorted).
 /* QUESTION 5 ----------------------------------------------------------------------------------- */
 
 /*
-sub_find(+E1,+L,-E2)
+sub(+L,+S,-L2)
 terms:
     +L  : list
     +S  : list of elements in the form [<element1>, <element2>]
