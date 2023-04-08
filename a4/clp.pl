@@ -50,7 +50,7 @@ query1(Semester, Name, Total) :-
     setup(Semester, as4, A4_total, A4_weight), !,
     setup(Semester, midterm, M_total, M_weight), !,
     setup(Semester, final, F_total, F_weight), !,
-    Total is A1_weight*A1/A1_total + A2_weight*A2/A2_total + A3_weight*A3/A3_total + A4_weight*A4/A4_total + M_weight*M/M_total + F_weight*F/F_total.
+    Total is 100*(A1_weight*A1/A1_total + A2_weight*A2/A2_total + A3_weight*A3/A3_total + A4_weight*A4/A4_total + M_weight*M/M_total + F_weight*F/F_total).
 
 /*
 query2(+Semester,-L)
